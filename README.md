@@ -3,8 +3,10 @@ School project for Genome Informatics course
 
 # Course information
 Assigment list:
+[a link](https://docs.google.com/document/d/1XqrPYwFnEYNOKzHntZQfz1L8b59BN8WIVvNgDyIUE0I/edit#heading=h.i7nzefwji0hn)
 
 Course sources:
+[a link](https://github.com/vladimirkovacevic/comp_gen)
 
 # Assigment
 The text of the assigment is the following (in Serbian):
