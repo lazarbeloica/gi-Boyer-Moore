@@ -2,10 +2,10 @@
 
 class BoyerMoore:
     
-    def __init__(self, heuristic_=None): #TODO add default heuristic
+    def __init__(self, heuristic_=None, pattern=None, text=None): #TODO add default heuristic
         self.set_heuristic(heuristic_)
-        self.set_pattern(None)
-        self.set_text(None)
+        self.set_pattern(pattern)
+        self.set_text(text)
         
     def get_heuristic(self):
         return self._heuristic
