@@ -59,6 +59,7 @@ class BoyerMoore:
             
         if self._preprocessing_required():
             self.get_heuristic().preprocess()
+            self._set_preprocessing_required(False)
             
             
         m = len(self.get_pattern())
