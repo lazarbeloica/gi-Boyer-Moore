@@ -48,7 +48,6 @@ class BoyerMoore:
         
         if heuristic_ is not None:
             self.set_heuristic(heuristic_)
-            self._set_preprocessing_required(True)
             
         if text is not None:
             self.set_text(text)
