@@ -7,11 +7,11 @@ class Heuristic(ABC):
 
 
     @abstractmethod
-    def get_shift_pattern_found(self, **kwargs): 
+    def get_shift_pattern_found(self, text, pattern, **kwargs): 
         pass
 
     @abstractmethod
-    def get_shift_pattern_not_found(self, **kwargs): 
+    def get_shift_pattern_not_found(self, text, pattern, **kwargs): 
         pass
 
     @abstractmethod
