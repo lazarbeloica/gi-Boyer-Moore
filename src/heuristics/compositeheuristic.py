@@ -20,9 +20,9 @@ class CompositeHeuristic(Heuristic):
     def remove(self, heuristic):
         self._heuristics.discard(heuristic)
         
-    def get_shift_pattern_not_found(self, text, pattern, **kwargs): 
-        return max([heuristic.get_shift_pattern_not_found(text, pattern, kwargs) for heuristic in self.get_heuristics()]) #TODO double check                                
+    def get_shift_pattern_not_found(self, **kwargs): 
+        return max([heuristic.get_shift_pattern_not_found(kwargs) for heuristic in self.get_heuristics()]) #TODO double check                                
         
-    def get_shift_pattern_found(self, text, pattern, **kwargs): 
-        return max([heuristic.get_shift_pattern_found(text, pattern, kwargs) for heuristic in self.get_heuristics()]) #TODO double check
+    def get_shift_pattern_found(self, **kwargs): 
+        return max([heuristic.get_shift_pattern_found(kwargs) for heuristic in self.get_heuristics()]) #TODO double check
     

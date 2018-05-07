@@ -60,9 +60,9 @@ class BoyerMoore:
                 
             if j<0:
                 print("Pattern occurs at shift = {}".format(s))
-                s += self.get_heuristic().get_shift_pattern_found(self.get_text(), self.get_pattern(), shift=s, text_len=m, pat_len=n, index=j)
+                s += self.get_heuristic().get_shift_pattern_found(text=self.get_text(), shift=s, text_len=m, pat_len=n, index=j)
             else:
-                s += self.get_heuristic().get_shift_pattern_not_found(self.get_text(), self.get_pattern(), shift=s, text_len=m, pat_len=n, index=j)        
+                s += self.get_heuristic().get_shift_pattern_not_found(text=self.get_text(), shift=s, text_len=m, pat_len=n, index=j)        
         
         
     
