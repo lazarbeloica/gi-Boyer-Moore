@@ -12,6 +12,7 @@ class BoyerMoore:
     
     def set_heuristic(self, heuristic_):
         self._heuristic = heuristic_
+        self._set_preprocessing_required(True)
         
     def set_text(self, text):
         self._text = text
@@ -24,6 +25,14 @@ class BoyerMoore:
     
     def set_pattern(self, pattern):
         self._pattern = pattern
+        self._set_preprocessing_required(True)
+        
+    def _set_preprocessing_required(self, preprocessing_required):
+        self._preprocessing_required = preprocessing_required
+        
+    def _preprocessing_required(self):
+        return self._preprocessing_required
+        
         
     
     def search(self, heuristic_=None, text=None, pattern=None):
@@ -39,12 +48,17 @@ class BoyerMoore:
         
         if heuristic_ is not None:
             self.set_heuristic(heuristic_)
+            self._set_preprocessing_required(True)
             
         if text is not None:
             self.set_text(text)
             
         if pattern is not None:
             self.set_pattern(pattern)
+            
+            
+        if self._preprocessing_required():
+            self.get_heuristic().preprocess()
             
             
         m = len(self.get_pattern())
