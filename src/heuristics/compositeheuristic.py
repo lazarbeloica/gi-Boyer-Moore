@@ -1,4 +1,4 @@
-from heuristics.heuristic import Heuristic
+from src.heuristics.heuristic import Heuristic
 
 class CompositeHeuristic(Heuristic):
 
