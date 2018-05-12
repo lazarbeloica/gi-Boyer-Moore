@@ -5,4 +5,5 @@ NAME=`python setup.py --name`
 all: test
 
 test:
-	$(PYTHON) -m unittest discover -t .
+	@echo Running unittests
+	@$(PYTHON) -m unittest src/tests/testbadchrheuristics.py
