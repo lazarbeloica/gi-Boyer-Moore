@@ -6,4 +6,4 @@ all: test
 
 test:
 	@echo Running unittests
-	@$(PYTHON) -m unittest src/tests/testbadchrheuristics.py
+	@$(PYTHON) -m unittest discover --start-directory src/tests
