@@ -32,7 +32,15 @@ class BoyerMoore:
         return self._preprocessing_required
 
     def search(self, heuristic_=None, text=None, pattern=None):
+        '''
+        Searches for the given patern in the given text using given heuristics.
 
+        :param heuristics.CompositeHeuristic heuristic_: Composition of heuristics that should be used.
+        :param str text:                                 A text to be compared against.
+        :param str pattern:                              Pattern that is beeing searched for.
+        :return array:                                   The result is a list of positions in the text
+                                                            where the pattern occurrence has been found.
+        '''
         if self.get_heuristic() is None and heuristic_ is None:
             raise Exception('Heuristic must be set')
 
