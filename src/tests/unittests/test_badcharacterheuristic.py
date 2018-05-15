@@ -5,7 +5,7 @@ from src.heuristics.badcharacter import BadCharacter
 def _get_text():
     return "aacaaaacaabaaaaaa"
 
-class BadCharacterHeurisicsTest(unittest.TestCase):
+class TestBadCharacterHeurisics(unittest.TestCase):
 
     def setUp(self):
         self.heuristics = BadCharacter()
