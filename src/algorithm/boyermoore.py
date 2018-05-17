@@ -76,8 +76,17 @@ class BoyerMoore:
 
             if j<0:
                 result.append(s)
-                s += self.get_heuristic().get_shift_pattern_found(text=self.get_text(), shift=s, text_len=m, index=j)
+                tmp = s + len(self.get_pattern())
+                if tmp == len(self.get_text()):
+                    break
+                res = self.get_heuristic().get_shift_pattern_found(next_letter = self.get_text()[tmp])
             else:
-                s += self.get_heuristic().get_shift_pattern_not_found(text=self.get_text(), shift=s, text_len=m, index=j)
+                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j)
+
+            if res + s < len(self.get_text()):
+                s += res
+            else:
+                s += 1
+
         result.sort()
         return result

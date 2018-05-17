@@ -22,30 +22,28 @@ class BadCharacter(Heuristic):
         Shift the pattern so that the bad character in text
         aligns with the last occurrence of it in pattern.
 
-        :param text str:          where the pattern is beeing searched
-        :param text_len integer:  the size of the text
-        :param shift integer:     current shift in the text
+        :NOTE: This heuristic is agnostic of the textlen, it is up to the caller to
+                    check if the shift could be made
+
+        :param char next_letter: Letter after last in the text against witch we are comparing
         :returns integer:         The value of the next shift
         '''
-        text = kwargs['text']
-        text_len = kwargs['text_len']
-        shift = kwargs['shift']
-        return (self._pattern_len - self._get_bad_chars()[ord(text[shift + self._pattern_len])]\
-        if shift + self._pattern_len < text_len
-        else 1)
+        next_letter = kwargs['next_letter']
+        return self._pattern_len - self._get_bad_chars()[ord(next_letter)]
 
     def get_shift_pattern_not_found(self, **kwargs):
         '''
         Shift the pattern so that the bad character in text
         aligns with the last occurrence of it in pattern.
 
-        :param integer index:   current index of the pattern being checked
-        :param str text:        where the pattern is beeing searched
-        :param integer shift:   current shift in the text
-        :returns integer:         The value of the next shift
+        :NOTE: This heuristic is agnostic of the textlen, it is up to the caller to
+                    check if the shift could be made
+
+        :param integer index:   Current index of the pattern being checked
+        :param char cur_letter: Current letter in the text against witch we are comparing
+        :returns integer:       The value of the next shift
         '''
         index = kwargs['index']
-        text = kwargs['text']
-        shift = kwargs['shift']
-        new_shift = index - self._get_bad_chars()[ord(text[shift + index])]
+        cur_letter = kwargs['cur_letter']
+        new_shift = index - self._get_bad_chars()[ord(cur_letter)]
         return (new_shift if new_shift > 0 else index + 1)

@@ -20,7 +20,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         cbba
           ^
         '''
-        res = self.heuristics.get_shift_pattern_not_found(text=_get_text(), index=2, shift=0)
+        res = self.heuristics.get_shift_pattern_not_found(cur_letter=_get_text()[2], index=2)
         self.assertEqual(res,2)
 
     def test_shift_not_found_1(self):
@@ -29,7 +29,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         ****cbba
                ^
         '''
-        res = self.heuristics.get_shift_pattern_not_found(text=_get_text(), index=3, shift=4)
+        res = self.heuristics.get_shift_pattern_not_found(cur_letter=_get_text()[7], index=3)
         self.assertEqual(res,3)
 
     def test_shift_not_found_2(self):
@@ -38,7 +38,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         **********cbba
                     ^
         '''
-        res = self.heuristics.get_shift_pattern_not_found(text=_get_text(), index=2, shift=10)
+        res = self.heuristics.get_shift_pattern_not_found(cur_letter=_get_text()[12], index=2)
         self.assertEqual(res,3)
 
     def test_shift_not_found_3(self):
@@ -47,7 +47,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         *************cbba
                        ^
         '''
-        res = self.heuristics.get_shift_pattern_not_found(text=_get_text(), index=2, shift=13)
+        res = self.heuristics.get_shift_pattern_not_found(cur_letter=_get_text()[15], index=2)
         self.assertEqual(res,3)
 
     def test_shift_not_found_4(self):
@@ -57,7 +57,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
            ^
         '''
         text = "cbbxaacaaaacaabaa"
-        res = self.heuristics.get_shift_pattern_not_found(text=text, index=3, shift=0)
+        res = self.heuristics.get_shift_pattern_not_found(cur_letter=text[3], index=3)
         self.assertEqual(res,4)
 
     def test_shift_found_0(self):
@@ -67,7 +67,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         ****cbba  <- resulting
         '''
         text = "cbbacacaabaaaaaa"
-        res = self.heuristics.get_shift_pattern_found(text=text, text_len=len(text) , shift=0)
+        res = self.heuristics.get_shift_pattern_found(next_letter=text[3 + 1])
         self.assertEqual(res,4)
 
     def test_shift_found_1(self):
@@ -77,7 +77,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         **cbba    <- resulting
         '''
         text = "cbbabacaabaaaaaa"
-        res = self.heuristics.get_shift_pattern_found(text=text, text_len=len(text) , shift=0)
+        res = self.heuristics.get_shift_pattern_found(next_letter=text[3 + 1])
         self.assertEqual(res,2)
 
     def test_shift_found_2(self):
@@ -87,18 +87,19 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         **** cbba   <- resulting
         '''
         text = "cbbaxacaabaaaaaa"
-        res = self.heuristics.get_shift_pattern_found(text=text, text_len=len(text) , shift=0)
+        res = self.heuristics.get_shift_pattern_found(next_letter=text[3 + 1])
         self.assertEqual(res,5)
 
     def test_shift_found_3(self):
         '''
+        NOTE The caller is responsible to chec the shift
         cbbaxacaabaacbbac
         ************cbba
-        ****cbba    <- resulting
+        ****************cbba    <- resulting
         '''
-        text = "cbbaxacaabaaaaaa"
-        res = self.heuristics.get_shift_pattern_found(text=text, text_len=len(text) , shift=12)
-        self.assertEqual(res,1)
+        text = "cbbaxacaabaacbbac"
+        res = self.heuristics.get_shift_pattern_found(next_letter=text[16])
+        self.assertEqual(res,4)
 
 
 if __name__ == '__main__':
