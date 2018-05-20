@@ -47,3 +47,6 @@ class BadCharacter(Heuristic):
         cur_letter = kwargs['cur_letter']
         new_shift = index - self._get_bad_chars()[ord(cur_letter)]
         return (new_shift if new_shift > 0 else index + 1)
+    
+    def get_name(self):
+        return "Bad Character"

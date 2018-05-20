@@ -24,3 +24,7 @@ class Heuristic(ABC):
         Does the preprocessing necessary for the heuristics.
         '''
         pass
+    
+    @abstractmethod
+    def get_name(self):
+        pass

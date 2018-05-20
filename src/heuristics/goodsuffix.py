@@ -66,4 +66,7 @@ class GoodSuffix(Heuristic):
         cur_letter = kwargs['cur_letter']
         index = kwargs['index']
         return max(self._get_shift_array()[index+1], index - self._get_occ_array()[ord(cur_letter)])
+    
+    def get_name(self):
+        return "Good suffix"
 

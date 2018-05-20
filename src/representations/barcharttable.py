@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 BAR_GROUP_WIDTH = 0.2
 
 class BarChartTable:
+    
+    figure_number = 1
 
     @staticmethod
-    def show_results(title, x_label, y_label, dictionary_values, tick_labels):
+    def create_result_window(title, x_label, y_label, dictionary_values, tick_labels):
         '''
         dictionary_values - dictionary i.e. {'men':[25,35,50,80],'women':[55,15,50,100]}
         '''
@@ -25,9 +27,8 @@ class BarChartTable:
         n_rects = len(bar_labels)
         n_groups = len(values[0])
 
-
-
-        fig, ax = plt.subplots(nrows=2)
+        fig, ax = plt.subplots(nrows=2, num=BarChartTable.figure_number)
+        BarChartTable.figure_number += 1
 
         index = np.arange(n_groups)
         bar_width = BAR_GROUP_WIDTH/n_rects
@@ -56,16 +57,12 @@ class BarChartTable:
         ax[1].set_axis_off()
 
         fig.tight_layout()
-        #fig.set_size_inches(5,5)
-        plt.show()
-
 
     @staticmethod
-    def show_results_boyer_moore(dictionary_values, tick_labels_text_size, tick_labels_pattern_size):
-
-        if len(tick_labels_pattern_size) != len(tick_labels_text_size):
-            raise Exception("tick_labels_pattern_size and tick_labels_text_size must be equal")
-
-        tick_labels = ['text: ' + str(tick_labels_text_size[i]) + '\n' + 'pattern: ' + str(tick_labels_pattern_size[i]) for i in range(len(tick_labels_pattern_size)) ] 
-        BarChartTable.show_results("Graphical representation for performance testing", "Text and pattern size", "Time", dictionary_values, tick_labels)
-
+    def create_multiple_result_windows(arg_list): #list of tuples, arguments for one windows are in each tuple
+        for i in range(len(arg_list)):
+            BarChartTable.create_result_window(*arg_list[i]) #TODO check this tuple expanding
+    
+    @staticmethod        
+    def show_result():
+        plt.show()

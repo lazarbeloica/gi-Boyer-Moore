@@ -40,11 +40,14 @@ class CompositeHeuristic(Heuristic):
         Returns the maximum shift found by running all the heuristics in the set when the pattern is not found.
         Input depends on the input necessary for all the heuristics in the set.
         '''
-        return max([heuristic.get_shift_pattern_not_found(kwargs) for heuristic in self.get_heuristics()]) #TODO double check
+        return max([heuristic.get_shift_pattern_not_found(**kwargs) for heuristic in self.get_heuristics()])
 
     def get_shift_pattern_found(self, **kwargs):
         '''
         Returns the maximum shift found by running all the heuristics in the set when the pattern is found.
         Input depends on the input necessary for all the heuristics in the set.
         '''
-        return max([heuristic.get_shift_pattern_found(kwargs) for heuristic in self.get_heuristics()]) #TODO double check
+        return max([heuristic.get_shift_pattern_found(**kwargs) for heuristic in self.get_heuristics()])
+    
+    def get_name(self):
+        return " + ".join([heuristic.get_name() for heuristic in self.get_heuristics()])
