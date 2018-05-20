@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-NUMBER_OF_CHARACTERS = 256 #number of characters in alphabet
-
 class Heuristic(ABC):
 
     @abstractmethod

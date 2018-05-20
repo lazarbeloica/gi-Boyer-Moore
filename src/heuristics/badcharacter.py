@@ -1,4 +1,4 @@
-from src.heuristics.heuristic import Heuristic, NUMBER_OF_CHARACTERS
+from src.heuristics.heuristic import Heuristic
 
 class BadCharacter(Heuristic):
 
@@ -9,10 +9,10 @@ class BadCharacter(Heuristic):
 
         :param str pattern: Pattern we are searching for
         '''
-        self._bad_chars = [-1] * NUMBER_OF_CHARACTERS
+        self._bad_chars = {}
         self._pattern_len = len(pattern_)
         for i in range(self._pattern_len):
-            self._bad_chars[ord(pattern_[i])] = i
+            self._bad_chars[pattern_[i]] = i
 
     def _get_bad_chars(self):
         return self._bad_chars
@@ -29,7 +29,7 @@ class BadCharacter(Heuristic):
         :returns integer:         The value of the next shift
         '''
         next_letter = kwargs['next_letter']
-        return self._pattern_len - self._get_bad_chars()[ord(next_letter)]
+        return self._pattern_len - self._get_bad_chars().get(next_letter, -1)
 
     def get_shift_pattern_not_found(self, **kwargs):
         '''
@@ -45,7 +45,7 @@ class BadCharacter(Heuristic):
         '''
         index = kwargs['index']
         cur_letter = kwargs['cur_letter']
-        new_shift = index - self._get_bad_chars()[ord(cur_letter)]
+        new_shift = index - self._get_bad_chars().get(cur_letter, -1)
         return (new_shift if new_shift > 0 else index + 1)
     
     def get_name(self):

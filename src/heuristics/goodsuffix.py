@@ -1,12 +1,12 @@
-from src.heuristics.heuristic import Heuristic, NUMBER_OF_CHARACTERS
+from src.heuristics.heuristic import Heuristic
 
 class GoodSuffix(Heuristic):
 
-    def _set_occ_array(self, occ_array):
-        self._occ_array = occ_array
+    def _set_occ_dict(self, occ_dict):
+        self._occ_dict = occ_dict
 
-    def _get_occ_array(self):
-        return self._occ_array
+    def _get_occ_dict(self):
+        return self._occ_dict
 
     def _set_shift_array(self, shift_array):
         self._shift_array = shift_array
@@ -30,11 +30,11 @@ class GoodSuffix(Heuristic):
             bpos[i] = j
 
     @staticmethod
-    def create_occ_array(pattern_):
-        occ_array = [-1] * NUMBER_OF_CHARACTERS
+    def create_occ_dict(pattern_):
+        occ_dict = {}
         for i in range(len(pattern_)):
-            occ_array[ord(pattern_[i])] = i
-        return occ_array
+            occ_dict[pattern_[i]] = i
+        return occ_dict
 
     @staticmethod
     def preprocess_second_case(pattern_, shift_array, bpos):
@@ -48,7 +48,7 @@ class GoodSuffix(Heuristic):
 
 
     def preprocess(self, pattern_):
-        self._set_occ_array(GoodSuffix.create_occ_array(pattern_))
+        self._set_occ_dict(GoodSuffix.create_occ_dict(pattern_))
         m = len(pattern_)
         bpos_temp = [0] * (m + 1)
         shift_array_temp = [0] * (m + 1)
@@ -65,7 +65,7 @@ class GoodSuffix(Heuristic):
     def get_shift_pattern_not_found(self, **kwargs):
         cur_letter = kwargs['cur_letter']
         index = kwargs['index']
-        return max(self._get_shift_array()[index+1], index - self._get_occ_array()[ord(cur_letter)])
+        return max(self._get_shift_array()[index+1], index - self._get_occ_dict().get(cur_letter, -1))
     
     def get_name(self):
         return "Good suffix"
