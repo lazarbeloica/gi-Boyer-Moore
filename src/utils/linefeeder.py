@@ -20,8 +20,6 @@ class LineFeeder():
            self._alg.set_pattern(pattern_)
         self._result = []
 
-
-
     def search(self):
         '''
         Searches for the given pattern in the given file using given algorithm.
