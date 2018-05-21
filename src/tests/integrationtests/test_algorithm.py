@@ -2,17 +2,16 @@ import unittest
 from src.algorithm.boyermoore import BoyerMoore
 
 class TestAlgorithm(unittest.TestCase):
-    
     '''
     This is a base class, it will not be used for testing, subclasses of this class will be used.
     '''
-    
+
     def setUp(self):
         self.skipTest("Not used for testing")
-        
+
     def set_heuristic(self, heuristic_):
         self._heuristic = heuristic_
-        
+
     def _get_heuristic(self):
         return self._heuristic
 
