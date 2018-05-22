@@ -81,7 +81,7 @@ class BoyerMoore:
                     break
                 res = self.get_heuristic().get_shift_pattern_found(next_letter = self.get_text()[tmp])
             else:
-                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j)
+                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j, aligned_letter = self.get_text()[s + m - 1])
 
             if res + s < len(self.get_text()):
                 s += res
