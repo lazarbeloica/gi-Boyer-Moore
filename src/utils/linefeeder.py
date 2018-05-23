@@ -1,51 +1,68 @@
-from src.algorithm.boyermoore import BoyerMoore
 
 class LineFeeder():
     '''
     Utils class for interacting with files and
     feeding the lines to the algorithm
     '''
-
-    def __init__(self, filename_, algorithm_, pattern_ = None):
+    
+    def __init__(self, algorithm, filename_ = None):
         '''
-        :param str filename_:           Full path to a file you wish to search
-        :param BoyerMoore algorithm_:   Instance of a BoyerMoore class
-        :optonal param str pattern_:    Pattern you wish to search for. This will override the pattern
-                                            set in the instance of the algorithm_ class. If this argument
-                                            is not specified, it pattern needs to be set in the algorithm_.
+        :optonal param filename_: Full path to a file you wish to search
+        :param algorithm:         Algorithm, with already set parameters, you wish to be used       
         '''
-        self._alg = algorithm_
-        self._file = open(filename_, 'r')
-        if pattern_ is not None:
-           self._alg.set_pattern(pattern_)
-        self._result = []
+        self._alg = algorithm
 
-    def search(self):
+        self._set_filename(filename_)
+    
+    
+    def set_filename(self, filename_):
+            self._filename = filename_
+
+    def get_filename(self):
+            return self._filename
+        
+    def set_algorithm(self, algorithm):
+            self._alg = algorithm
+
+    def get_algorithm(self):
+            return self._alg        
+
+
+    def search_yield(self, filename_ = None):
         '''
         Searches for the given pattern in the given file using given algorithm.
+        
         '''
-        pattern_len = len(self._alg.get_pattern())
-        globalShift = 0
+        
+        if self._get_filename() is None and filename_ is None:
+            raise Exception('Filename must be set')
+        
+        if filename_ is not None:
+            self._set_filename(filename_)
+
+        pattern_len = len(self._get_pattern())
+        global_shift = 0
         line = ""
 
-        #for new_line in iter(lambda: self._file.getline(), ''):
-        for new_line in self._file:
-            new_line = new_line.replace('\n', '')
-            new_line = new_line.replace('\r', '')
-            line += new_line
-            if (len(line) < pattern_len or new_line == ''):
-                continue
+        with open(self._get_filename()) as file:
+            for new_line in file:
+                new_line = new_line.strip('\n')
+                new_line = new_line.strip('\r')
+                line += new_line
+                if (len(line) < pattern_len or new_line == ''):
+                    continue
+    
+                self._alg.set_text(line)
+                for el in self._alg.search_yield():
+                    yield (el + global_shift)
+    
+                global_shift += len(line) - pattern_len + 1
+                if pattern_len == 1:
+                    line = ""
+                else:
+                    line = line[(-1 * pattern_len + 1):]
+                    
+                    
+    def get_results(self, filename_ = None):
+        return sorted([res for res in self.search_yield(filename_)])
 
-            self._alg.set_text(line)
-            res = self._alg.search()
-            for el in res:
-                self._result.append(el + globalShift)
-
-            globalShift += len(line) - pattern_len + 1
-            if pattern_len == 1:
-                line = ""
-            else:
-                line = line[(-1 * pattern_len + 1):]
-
-        self._file.close()
-        return self._result

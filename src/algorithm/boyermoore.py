@@ -31,7 +31,7 @@ class BoyerMoore:
     def _get_preprocessing_required(self):
         return self._preprocessing_required
 
-    def search(self, heuristic_=None, text=None, pattern=None):
+    def search_yield(self, heuristic_=None, text=None, pattern=None):
         '''
         Searches for the given patern in the given text using given heuristics.
 
@@ -67,7 +67,6 @@ class BoyerMoore:
         n = len(self.get_text())
         s = 0
 
-        result = []
         while(s <= n-m):
             j = m-1
 
@@ -75,7 +74,7 @@ class BoyerMoore:
                 j -= 1
 
             if j<0:
-                result.append(s)
+                yield s
                 tmp = s + len(self.get_pattern())
                 if tmp == len(self.get_text()):
                     break
@@ -87,6 +86,6 @@ class BoyerMoore:
                 s += res
             else:
                 s += 1
-
-        result.sort()
-        return result
+                
+    def get_result(self, heuristic_=None, text=None, pattern=None):
+        return sorted([res for res in self.search_yield(heuristic_, text, pattern)])
