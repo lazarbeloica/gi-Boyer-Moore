@@ -76,12 +76,27 @@ class BoyerMoore:
 
             if j<0:
                 result.append(s)
+
+                if s + m + 1 < n:
+                    next_next_letter = self.get_text()[s + m + 1]
+                else:
+                    next_next_letter = None
+
                 tmp = s + len(self.get_pattern())
                 if tmp == len(self.get_text()):
                     break
-                res = self.get_heuristic().get_shift_pattern_found(next_letter = self.get_text()[tmp])
+
+                res = self.get_heuristic().get_shift_pattern_found(cur_letter = self.get_text()[tmp], next_next_letter = next_next_letter)
+
             else:
-                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j, aligned_letter = self.get_text()[s + m - 1])
+                if s + m + 1 < n:
+                    next_letter = self.get_text()[s + m + 1]
+                    next_next_letter = self.get_text()[s + m + 1]
+                else:
+                    next_letter = None
+                    next_next_letter = None
+                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j, aligned_letter = self.get_text()[s + m - 1],
+                                                                       next_next_letter = next_next_letter, next_letter = next_letter)
 
             if res + s < len(self.get_text()):
                 s += res
