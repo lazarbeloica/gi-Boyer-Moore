@@ -46,7 +46,7 @@ class BarChartTable:
 
         row_colors = [rect[0]._facecolor for rect in rects]        
         the_table = plt.table(cellText=values,
-                      rowLabels=bar_labels,
+                      rowLabels=['   ' for _ in range(n_rects) ],
                       colLabels=tick_labels,
                       loc='center', cellLoc='center',
                       rowColours=row_colors )
@@ -60,11 +60,10 @@ class BarChartTable:
         
     @staticmethod
     def create_table(clust_data):
-        fig, ax = plt.subplots(nrows=2, num=BarChartTable.figure_number)
+        fig, ax = plt.subplots(nrows=1, num=BarChartTable.figure_number)
         BarChartTable.figure_number += 1
-        ax[0].axis('tight')
-        ax[0].axis('off')
-        ax[0].table(cellText=clust_data, loc='center')
+        ax.set_axis_off()
+        ax.table(cellText=clust_data, loc='center', cellLoc='center')
         
     @staticmethod
     def create_multiple_result_windows(arg_list): #list of tuples, arguments for one windows are in each tuple
@@ -74,3 +73,4 @@ class BarChartTable:
     @staticmethod        
     def show_result():
         plt.show()
+
