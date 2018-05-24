@@ -25,6 +25,8 @@ class SecndHeuristic(Heuristic):
         return self._pattern_len - self._bad_chars[letter]
 
     def _calculate_skip2(self, letter):
+        if letter is None:
+            return -1
         return self._calculate_skip(letter) + 1
 
     def _occurs_in_pattern(self, letter):
@@ -44,10 +46,6 @@ class SecndHeuristic(Heuristic):
         '''
         next_letter = kwargs['next_letter']
         next_next_letter = kwargs['next_next_letter']
-
-        if(next_letter == None or
-           next_next_letter == None):
-            return 0
 
         return (1 if self._calculate_skip(next_letter) == 1 \
             else max(self._calculate_skip(next_letter),
@@ -69,10 +67,6 @@ class SecndHeuristic(Heuristic):
         next_letter = kwargs['next_letter']
         next_next_letter = kwargs['next_next_letter']
         index = kwargs['index']
-
-        if(next_letter == None or
-           next_next_letter == None or index == None):
-            return 0
 
         if index == self._pattern_len - 1:
             #missmach happend at the last pattern chr
