@@ -1,9 +1,10 @@
-class BoyerMoore:
+from src.algorithm.algorithm import Algorithm
 
-    def __init__(self, heuristic_=None, pattern=None, text=None): #TODO add default heuristic
+class BoyerMoore(Algorithm):
+    
+    def __init__(self, heuristic_, pattern=None, text=None):
+        Algorithm.__init__(self, pattern=pattern, text=text)
         self.set_heuristic(heuristic_)
-        self.set_pattern(pattern)
-        self.set_text(text)
 
     def get_heuristic(self):
         return self._heuristic
@@ -11,15 +12,6 @@ class BoyerMoore:
     def set_heuristic(self, heuristic_):
         self._heuristic = heuristic_
         self._set_preprocessing_required(True)
-
-    def set_text(self, text):
-        self._text = text
-
-    def get_text(self):
-        return self._text
-
-    def get_pattern(self):
-        return self._pattern
 
     def set_pattern(self, pattern):
         self._pattern = pattern
@@ -31,7 +23,9 @@ class BoyerMoore:
     def _get_preprocessing_required(self):
         return self._preprocessing_required
 
-    def search_yield(self, heuristic_=None, text=None, pattern=None):
+    def search_yield(self, text=None, pattern=None, **kward):
+        
+        heuristic_ = kward.get('heuristic_', None)
         '''
         Searches for the given patern in the given text using given heuristics.
 
@@ -87,5 +81,9 @@ class BoyerMoore:
             else:
                 s += 1
                 
-    def get_result(self, heuristic_=None, text=None, pattern=None):
-        return sorted([res for res in self.search_yield(heuristic_, text, pattern)])
+    def get_results(self, text=None, pattern=None, **kwarg):
+        heuristic_ = kwarg.get('heuristic_', None)
+        return sorted([res for res in self.search_yield(text, pattern, heuristic_=heuristic_)])
+    
+    def get_name(self):
+        return 'Boyer Moore(' + self.get_heuristic().get_name() + ')'

@@ -2,7 +2,7 @@ from src.heuristics.heuristic import Heuristic
 
 class BadCharacter(Heuristic):
 
-    def preprocess(self, pattern_):
+    def preprocess(self, pattern):
         '''
         Does the preprocessing on pattern required for the
         badcharacter heuristics.
@@ -10,9 +10,9 @@ class BadCharacter(Heuristic):
         :param str pattern: Pattern we are searching for
         '''
         self._bad_chars = {}
-        self._pattern_len = len(pattern_)
+        self._pattern_len = len(pattern)
         for i in range(self._pattern_len):
-            self._bad_chars[pattern_[i]] = i
+            self._bad_chars[pattern[i]] = i
 
     def _get_bad_chars(self):
         return self._bad_chars

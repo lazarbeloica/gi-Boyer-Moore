@@ -2,19 +2,19 @@ from src.heuristics.heuristic import Heuristic
 
 class CompositeHeuristic(Heuristic):
 
-    def __init__(self, *argv):
+    def __init__(self, heur_list):
         self._heuristics = set()
-        for arg in argv:
-            self.add(arg)
+        for heur in heur_list:
+            self.add(heur)
 
-    def preprocess(self, pattern_):
+    def preprocess(self, pattern):
         '''
         Does the pattern preprocessing requred for all the heuristics it contains.
 
         :param str pattern: The pattern that is used.
         '''
         for heuristic in self.get_heuristics():
-            heuristic.preprocess(pattern_)
+            heuristic.preprocess(pattern)
 
     def add(self, heuristic):
         '''
