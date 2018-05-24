@@ -71,6 +71,18 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         res = self.heuristics.get_shift_pattern_not_found(next_letter=text[index + 1], next_next_letter=text[index + 2], index=index)
         self.assertEqual(res,4)
 
+    def test_shift_not_found_5(self):
+        '''
+        aacacbacaabaaaaaa
+        cbba
+           ^
+        ****cbba       <- resulting
+        '''
+        text = "aacacbacaabaaaaaa"
+        index = 3
+        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[index + 1], next_next_letter=text[index + 2], index=index)
+        self.assertEqual(res,4)
+
 ############ missmatch on chr which is not in the end ###############
 
     def test_shift_not_found_5(self):

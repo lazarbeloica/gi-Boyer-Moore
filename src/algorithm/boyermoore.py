@@ -105,11 +105,3 @@ class BoyerMoore:
 
         result.sort()
         return result
-
-from src.heuristics.secondheuristic import SecndHeuristic
-
-text = "asdjasdvhajsdvajsdbhasjd asdbha sjasdjasvbdjas"
-pattern = "jasdj"
-algorithm = BoyerMoore(SecndHeuristic(), pattern, text)
-res = algorithm.search()
-print (res)
