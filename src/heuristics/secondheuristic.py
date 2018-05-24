@@ -20,8 +20,7 @@ class SecndHeuristic(Heuristic):
 
         for i in range(self._pattern_len):
             self._bad_chars[pattern_[i]] = i
-            self._bad_chr_cnt[pattern_[i]] = self._bad_chr_cnt[pattern_[i]] + 1 \
-            if pattern_[i] in self._bad_chr_cnt else 1
+            self._bad_chr_cnt[pattern_[i]] = self._bad_chr_cnt.get(pattern_[i], 0) + 1
 
     def _calculate_skip(self, letter, index = None):
         if index is None:
@@ -90,7 +89,8 @@ class SecndHeuristic(Heuristic):
         else:
             if self._calculate_skip(next_letter, index) == 1 \
             and self._occurs_in_pattern(self._pattern[index]) == 1:
-                self._bad_chars[next_letter] = self._pattern_len + 1
+                return max(self._pattern_len, self._calculate_skip2(next_next_letter, index))
+
 
             return max(self._calculate_skip(next_letter, index),
                            self._calculate_skip2(next_next_letter, index))
