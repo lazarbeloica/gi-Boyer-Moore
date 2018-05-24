@@ -22,17 +22,14 @@ class SecndHeuristic(Heuristic):
             self._bad_chars[pattern_[i]] = i
             self._bad_chr_cnt[pattern_[i]] = self._bad_chr_cnt.get(pattern_[i], 0) + 1
 
-    def _calculate_skip(self, letter, index = None):
-        if index is None:
-            index = self._pattern_len - 1
-
+    def _calculate_skip(self, letter):
         if letter not in self._bad_chars:
-            return self._pattern_len
+            return self._pattern_len + 1
 
-        return index - self._bad_chars[letter]
+        return self._pattern_len - self._bad_chars[letter]
 
-    def _calculate_skip2(self, letter, index = None):
-        return self._calculate_skip(letter, index) + 1
+    def _calculate_skip2(self, letter):
+        return self._calculate_skip(letter) + 1
 
     def _occurs_in_pattern(self, letter):
         return self._bad_chars.get(letter, 0)
@@ -87,13 +84,12 @@ class SecndHeuristic(Heuristic):
             else max(self._calculate_skip(next_letter),
                      self._calculate_skip2(next_next_letter)))
         else:
-            if self._calculate_skip(next_letter, index) == 1 \
+            if self._calculate_skip(next_letter) == 1 \
             and self._occurs_in_pattern(self._pattern[index]) == 1:
-                return max(self._pattern_len, self._calculate_skip2(next_next_letter, index))
+                return max(self._pattern_len + 1, self._calculate_skip2(next_next_letter))
 
-
-            return max(self._calculate_skip(next_letter, index),
-                           self._calculate_skip2(next_next_letter, index))
+            return max(self._calculate_skip(next_letter),
+                           self._calculate_skip2(next_next_letter))
 
     def get_name(self):
         return "Imporved BMHS"
