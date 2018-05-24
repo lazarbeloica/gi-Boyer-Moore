@@ -1,47 +1,67 @@
-from algorithm.boyermoore import BoyerMoore
-from representations.barcharttable import BarChartTable
+from src.representations.barcharttable import BarChartTable
 from memory_profiler import memory_usage
 import time
 import statistics
-from utils.linefeeder import LineFeeder
+from src.utils.linefeeder import LineFeeder
+
+def timer_decorator(f):
+    def wrapper(*arg, **kwarg):
+        start_time = time.time()
+        f(*arg, **kwarg)
+        end_time = time.time()
+        
+        return end_time - start_time
+    
+    return wrapper
+
+def memory_decorator(f):
+    def wrapper(execution_time):
+        interval = int(execution_time/40) if int(execution_time/40) != 0 else 1
+        mem_usage_list = memory_usage(f, interval=interval)
+        return statistics.mean(mem_usage_list)
+    
+    return wrapper    
+        
 
 class PerformanceAnalyser:
 
-    def __init__(self, pattern=None, filename=None, text=None):
-
-        self._algorithm = BoyerMoore()
-        self._heuristics = set()
+    def __init__(self):
+        self._line_feeder = LineFeeder()
+        self._combinations = [] # combination of file path and pattern
+        self._algorithms = set()
         self._time_results = {}
         self._mem_results = {}
         self._tick_labels = []
+        
+    def add_path_pattern(self, path, pattern):
+        self._combinations.append((path, pattern))
+        
+    def add_algorithm(self, algorithm_):
+        self._algorithms.add(algorithm_)
 
-        if filename is not None:
-            self._lf = LineFeeder(filename, self._algorithm, pattern)
-            self._matcher = self._lf
-        else:
-            self._matcher = self._algorithm
-
-    def add_heuristic(self, heuristic_):
-        self._heuristics.add(heuristic_)
-
-    def remove_heuristic(self, heuristic_):
-        self._heuristics.remove(heuristic_)
 
     def analyse(self):
-        self._tick_labels.append("Pattern name \n Text name") #TODO
-        for heuristic in self._heuristics:
-            start_time = int(time.time())
-            self._algorithm.set_heuristic(heuristic)
+        
+        for path, pattern in self._combinations:
+            self._tick_labels.append('pattern: ' + pattern + ' path: ' + path)
+            for algo in self._algorithms:            
 
-            self._matcher.search()
-            end_time = int(time.time())
-            operation_time = (end_time-start_time) #TODO time in seconds
-            self._time_results.setdefault(heuristic.get_name(), []).append(operation_time)
-
-            mem_usage_list = memory_usage(self._matcher.search, interval=20)
-            self._mem_results.setdefault(heuristic.get_name(), []).append(statistics.mean(mem_usage_list))
+                algo.set_pattern(pattern)
+                self._line_feeder.set_algorithm(algo)
+                self._line_feeder.set_file_path(path)
+                
+                execution_time = timer_decorator(self._line_feeder.get_results)()
+                self._time_results.setdefault(algo.get_name(), []).append(execution_time)
+                
+                algo.set_pattern(pattern)
+                self._line_feeder.set_algorithm(algo)
+                self._line_feeder.set_file_path(path) 
+                
+                self._mem_results.setdefault(algo.get_name(), []).append(memory_decorator(self._line_feeder.get_results)(execution_time))
 
     def show_results(self):
-        BarChartTable.create_result_window("Time analysis", '', 'Time(sec)', self._time_results, self._tick_labels)
-        BarChartTable.create_result_window("Memory analysis", '', 'Memory(MB)', self._mem_results, self._tick_labels)
+        BarChartTable.create_result_window("Time analysis", '', 'Time(sec)', self._time_results, [str(i + 1) for i in range(len(self._tick_labels))])
+        BarChartTable.create_result_window("Memory analysis", '', 'Memory(MB)', self._mem_results, [str(i + 1) for i in range(len(self._tick_labels))])
+        data = [[str(i + 1), elem] for i, elem in enumerate(self._tick_labels)]
+        BarChartTable.create_table(data)
         BarChartTable.show_result()

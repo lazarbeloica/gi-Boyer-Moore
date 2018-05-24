@@ -57,7 +57,15 @@ class BarChartTable:
         ax[1].set_axis_off()
 
         fig.tight_layout()
-
+        
+    @staticmethod
+    def create_table(clust_data):
+        fig, ax = plt.subplots(nrows=2, num=BarChartTable.figure_number)
+        BarChartTable.figure_number += 1
+        ax[0].axis('tight')
+        ax[0].axis('off')
+        ax[0].table(cellText=clust_data, loc='center')
+        
     @staticmethod
     def create_multiple_result_windows(arg_list): #list of tuples, arguments for one windows are in each tuple
         for i in range(len(arg_list)):
