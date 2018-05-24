@@ -78,12 +78,12 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         aabaaaacaabaaaaaa
         cbba
          ^
-        *cbba         <- resulting
+        **cbba         <- resulting
         '''
         text = "aabaaaacaabaaaaaa"
         index = 1
-        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[index + 1], next_next_letter=text[index + 2], index = index)
-        self.assertEqual(res,1)
+        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[4], next_next_letter=text[5], index = index)
+        self.assertEqual(res,2)
 
     def test_shift_not_found_6(self):
         '''
@@ -94,7 +94,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         '''
         text = "aacabcacaabaaaaaa"
         index = 2
-        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[index + 1], next_next_letter=text[index + 2], index = index)
+        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[4], next_next_letter=text[5], index = index)
         self.assertEqual(res,5)
 
     def test_shift_not_found_7(self):
@@ -106,7 +106,7 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         '''
         text = "aacaxxacaabaaaaaa"
         index = 2
-        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[index + 1], next_next_letter=text[index + 2], index = index)
+        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[4], next_next_letter=text[5], index = index)
         self.assertEqual(res,6)
 
     def test_shift_not_found_8(self):
@@ -114,12 +114,12 @@ class TestBadCharacterHeurisics(unittest.TestCase):
         aacabcacaabaaaaaa
         cbba
           ^
-        **cbba       <- resulting
+        *****cbba       <- resulting
         '''
         text = "aacabcacaabaaaaaa"
         index = 2
-        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[index + 1], next_next_letter=text[index + 2], index = index)
-        self.assertEqual(res,2)
+        res = self.heuristics.get_shift_pattern_not_found(next_letter=text[4], next_next_letter=text[5], index = index)
+        self.assertEqual(res,5)
 
     def test_shift_found_0(self):
         '''
