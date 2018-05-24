@@ -43,7 +43,7 @@ class PerformanceAnalyser:
     def analyse(self):
         
         for path, pattern in self._combinations:
-            self._tick_labels.append('pattern: ' + pattern + ' path: ' + path)
+            self._tick_labels.append('PATTERN: ' + pattern + '     PATH: ' + path)
             for algo in self._algorithms:            
 
                 algo.set_pattern(pattern)
