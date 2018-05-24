@@ -1,7 +1,3 @@
-'''
-Improved BMHS algorithm
-'''
-
 from src.heuristics.heuristic import Heuristic
 
 class SecndHeuristic(Heuristic):
