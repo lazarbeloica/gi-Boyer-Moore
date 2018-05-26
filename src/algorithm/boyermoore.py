@@ -69,7 +69,6 @@ class BoyerMoore(Algorithm):
 
             if j<0:
                 yield s
-                result.append(s)
 
                 if s + m + 1 < n:
                     next_next_letter = self.get_text()[s + m + 1]

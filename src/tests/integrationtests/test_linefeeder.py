@@ -25,8 +25,8 @@ class TestLineFeeder(unittest.TestCase):
 
         pattern = "jasdj"
         algorithm = BoyerMoore(self._get_heuristic(), pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [33])
         os.remove(_filename)
 
@@ -38,8 +38,8 @@ class TestLineFeeder(unittest.TestCase):
 
         pattern = "asff"
         algorithm = BoyerMoore(self._get_heuristic(), pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [])
         os.remove(_filename)
 
@@ -51,8 +51,8 @@ class TestLineFeeder(unittest.TestCase):
 
         pattern = "ajakv"
         algorithm = BoyerMoore(self._get_heuristic(), pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [2,12, 23,36,52])
         os.remove(_filename)
 
@@ -64,8 +64,8 @@ class TestLineFeeder(unittest.TestCase):
 
         pattern = "aa"
         algorithm = BoyerMoore(self._get_heuristic(), pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [0,1,2,3,4,5,6,7])
         os.remove(_filename)
 
@@ -78,8 +78,8 @@ class TestLineFeeder(unittest.TestCase):
 
         pattern = "a"
         algorithm = BoyerMoore(self._get_heuristic(), pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [0,1,2,3,4,5,6,7,8])
         os.remove(_filename)
 
@@ -91,13 +91,13 @@ class TestLineFeeder(unittest.TestCase):
 
         pattern = "a"
         algorithm = BoyerMoore(self._get_heuristic(), pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [0,1,2,3,4,5,6,7,8])
         pattern = "aa"
         algorithm.set_pattern(pattern)
-        lf = LineFeeder(_filename, algorithm)
-        res = lf.search()
+        lf = LineFeeder(algorithm, _filename)
+        res = lf.get_results()
         self.assertEqual(res, [0,1,2,3,4,5,6,7])
         os.remove(_filename)
 
