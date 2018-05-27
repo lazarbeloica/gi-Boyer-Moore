@@ -14,7 +14,6 @@ def timer_decorator(f):
 
     return wrapper
 
-<<<<<<< 24fb4775f9c555e4e4eee10d201d0bb12765f5ce
 def memory_decorator(f):
     def wrapper(execution_time):
         interval = int(execution_time/40) if int(execution_time/40) != 0 else 1
@@ -23,9 +22,6 @@ def memory_decorator(f):
 
     return wrapper
 
-
-=======
->>>>>>> unstable
 class PerformanceAnalyser:
 
     def __init__(self):
