@@ -1,5 +1,7 @@
 from src.heuristics.compositeheuristic import CompositeHeuristic
 from src.heuristics.badcharacter import BadCharacter
+from src.heuristics.firstheuristic import FirstHeuristic
+from src.heuristics.secondheuristic import SecndHeuristic
 from src.heuristics.goodsuffix import GoodSuffix
 from src.performance.performanceanalyser import PerformanceAnalyser
 import sys
@@ -7,9 +9,13 @@ import os.path
 from src.algorithm.boyermoore import BoyerMoore
 
 heur_dict = {'BC': BadCharacter,
-             'FH': None,         #TODO add object for first heuristic
+             'bc': BadCharacter,
+             'FH': FirstHeuristic,
+             'fh': FirstHeuristic,
              'GS': GoodSuffix,
-             'SH': None          #TODO add object for second heuristic
+             'gs': GoodSuffix,
+             'SH': SecndHeuristic,
+             'sh': SecndHeuristic
              }
     
 def read_arguments(arg_list):
