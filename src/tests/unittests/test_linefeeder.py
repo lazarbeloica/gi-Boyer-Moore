@@ -29,21 +29,21 @@ class TestLineFeedr(unittest.TestCase):
 
     def test_no_match(self):
         self._algorithm.get_pattern = Mock(return_value = "aaaaa")
-        self._algorithm.search = Mock(return_value = [])
-        lf = LineFeeder(self._filename, self._algorithm)
-        self.assertEqual([], lf.search())
+        self._algorithm.get_results = Mock(return_value = [])
+        lf = LineFeeder(self._algorithm, self._filename)
+        self.assertEqual([], lf.get_results())
 
     def test_match(self):
         self._algorithm.get_pattern = Mock(return_value = "lamil")
-        self._algorithm.search = Mock(side_effect = [[5], [], [], [10], [], [], [4], [], []])
-        lf = LineFeeder(self._filename, self._algorithm)
-        self.assertEqual([5, 44, 87], lf.search())
+        self._algorithm.get_results = Mock(side_effect = [[5], [], [], [10], [], [], [4], [], []])
+        lf = LineFeeder(self._algorithm, self._filename)
+        self.assertEqual([5, 44, 87], lf.get_results())
 
     def test_match_letter(self):
         self._algorithm.get_pattern = Mock(return_value = "l")
-        self._algorithm.search = Mock(side_effect = [[1], [3, 7], [], [0, 5, 10, 16], [6, 10, 12, 15, 23], [11, 16], [1], [0,4], [14], [1]])
-        lf = LineFeeder(self._filename, self._algorithm)
-        self.assertEqual([1,5,9,21,26,31,37,44,48,50,53,61,74,79,83,87,91,106,111], lf.search())
+        self._algorithm.get_results = Mock(side_effect = [[1], [3, 7], [], [0, 5, 10, 16], [6, 10, 12, 15, 23], [11, 16], [1], [0,4], [14], [1]])
+        lf = LineFeeder(self._algorithm, self._filename)
+        self.assertEqual([1,5,9,21,26,31,37,44,48,50,53,61,74,79,83,87,91,106,111], lf.get_results())
 
 
 if __name__ == '__main__':

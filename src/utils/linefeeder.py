@@ -1,4 +1,3 @@
-from src.algorithm.boyermoore import BoyerMoore
 
 class LineFeeder():
     '''
@@ -6,48 +5,67 @@ class LineFeeder():
     feeding the lines to the algorithm
     '''
 
-    def __init__(self, filename_, algorithm_, pattern_ = None):
+    def __init__(self, algorithm=None, file_path = None):
         '''
-        :param str filename_:           Full path to a file you wish to search
-        :param BoyerMoore algorithm_:   Instance of a BoyerMoore class
-        :optonal param str pattern_:    Pattern you wish to search for. This will override the pattern
-                                            set in the instance of the algorithm_ class. If this argument
-                                            is not specified, it pattern needs to be set in the algorithm_.
+        :optonal param file_path_: Full path to a file you wish to search
+        :param algorithm:         Algorithm, with already set parameters, you wish to be used
         '''
-        self._alg = algorithm_
-        self._file = open(filename_, 'r')
-        if pattern_ is not None:
-           self._alg.set_pattern(pattern_)
-        self._result = []
+        self.set_algorithm(algorithm)
+
+        self.set_file_path(file_path)
 
 
+    def set_file_path(self, file_path):
+            self._file_path = file_path
 
-    def search(self):
+    def get_file_path(self):
+            return self._file_path
+
+    def set_algorithm(self, algorithm):
+            self._algorithm = algorithm
+
+    def get_algorithm(self):
+            return self._algorithm
+
+    def search_yield(self, algorithm=None, file_path = None):
         '''
         Searches for the given pattern in the given file using given algorithm.
+
         '''
-        pattern_len = len(self._alg.get_pattern())
-        globalShift = 0
+        if self.get_algorithm() is None and algorithm is None:
+            raise Exception('Algorithm must be set')
+
+        if self.get_file_path() is None and file_path is None:
+            raise Exception('file_path must be set')
+
+        if file_path is not None:
+            self.set_file_path(file_path)
+
+        if algorithm is not None:
+            self.set_algorithm(algorithm)
+
+        pattern_len = len(self.get_algorithm().get_pattern())
+        global_shift = 0
         line = ""
 
-        #for new_line in iter(lambda: self._file.getline(), ''):
-        for new_line in self._file:
-            new_line = new_line.replace('\n', '')
-            new_line = new_line.replace('\r', '')
-            line += new_line
-            if (len(line) < pattern_len or new_line == ''):
-                continue
+        with open(self.get_file_path()) as file:
+            for new_line in file:
+                new_line = new_line.strip('\n')
+                new_line = new_line.strip('\r')
+                line += new_line
+                if (len(line) < pattern_len or new_line == ''):
+                    continue
 
-            self._alg.set_text(line)
-            res = self._alg.search()
-            for el in res:
-                self._result.append(el + globalShift)
+                self.get_algorithm().set_text(line)
+                for el in self.get_algorithm().get_results():
+                    yield (el + global_shift)
 
-            globalShift += len(line) - pattern_len + 1
-            if pattern_len == 1:
-                line = ""
-            else:
-                line = line[(-1 * pattern_len + 1):]
+                global_shift += len(line) - pattern_len + 1
+                if pattern_len == 1:
+                    line = ""
+                else:
+                    line = line[(-1 * pattern_len + 1):]
 
-        self._file.close()
-        return self._result
+
+    def get_results(self, algorithm=None, file_path = None):
+        return sorted([res for res in self.search_yield(algorithm, file_path)])

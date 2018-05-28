@@ -1,9 +1,10 @@
-class BoyerMoore:
+from src.algorithm.algorithm import Algorithm
 
-    def __init__(self, heuristic_=None, pattern=None, text=None): #TODO add default heuristic
+class BoyerMoore(Algorithm):
+
+    def __init__(self, heuristic_, pattern=None, text=None):
+        Algorithm.__init__(self, pattern=pattern, text=text)
         self.set_heuristic(heuristic_)
-        self.set_pattern(pattern)
-        self.set_text(text)
 
     def get_heuristic(self):
         return self._heuristic
@@ -11,15 +12,6 @@ class BoyerMoore:
     def set_heuristic(self, heuristic_):
         self._heuristic = heuristic_
         self._set_preprocessing_required(True)
-
-    def set_text(self, text):
-        self._text = text
-
-    def get_text(self):
-        return self._text
-
-    def get_pattern(self):
-        return self._pattern
 
     def set_pattern(self, pattern):
         self._pattern = pattern
@@ -31,7 +23,9 @@ class BoyerMoore:
     def _get_preprocessing_required(self):
         return self._preprocessing_required
 
-    def search(self, heuristic_=None, text=None, pattern=None):
+    def search_yield(self, text=None, pattern=None, **kward):
+
+        heuristic_ = kward.get('heuristic_', None)
         '''
         Searches for the given patern in the given text using given heuristics.
 
@@ -67,7 +61,6 @@ class BoyerMoore:
         n = len(self.get_text())
         s = 0
 
-        result = []
         while(s <= n-m):
             j = m-1
 
@@ -75,18 +68,37 @@ class BoyerMoore:
                 j -= 1
 
             if j<0:
-                result.append(s)
-                tmp = s + len(self.get_pattern())
-                if tmp == len(self.get_text()):
-                    break
-                res = self.get_heuristic().get_shift_pattern_found(next_letter = self.get_text()[tmp])
-            else:
-                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j, aligned_letter = self.get_text()[s + m - 1])
+                yield s
 
-            if res + s < len(self.get_text()):
+                if s + m + 1 < n:
+                    next_next_letter = self.get_text()[s + m + 1]
+                else:
+                    next_next_letter = None
+
+                tmp = s + m
+                if tmp == n:
+                    break
+
+                res = self.get_heuristic().get_shift_pattern_found(next_letter = self.get_text()[tmp], next_next_letter = next_next_letter)
+
+            else:
+                if s + m + 1 < n:
+                    next_letter = self.get_text()[s + m]
+                    next_next_letter = self.get_text()[s + m + 1]
+                else:
+                    next_letter = None
+                    next_next_letter = None
+                res = self.get_heuristic().get_shift_pattern_not_found(cur_letter = self.get_text()[s + j], index=j, aligned_letter = self.get_text()[s + m - 1],
+                                                                       next_next_letter = next_next_letter, next_letter = next_letter)
+
+            if res + s < n:
                 s += res
             else:
                 s += 1
 
-        result.sort()
-        return result
+    def get_results(self, text=None, pattern=None, **kwarg):
+        heuristic_ = kwarg.get('heuristic_', None)
+        return sorted([res for res in self.search_yield(text, pattern, heuristic_=heuristic_)])
+
+    def get_name(self):
+        return 'Boyer Moore(' + self.get_heuristic().get_name() + ')'
