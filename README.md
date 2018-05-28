@@ -39,7 +39,8 @@ Zadatak je predviđen za dva studenta.
 
 The program entrance point is located in src/main.py
 
-It is necessary to specify the list of heuristics to use by specifying a '-h' flag and after that a list of heuristics should be given. The list elements should be separated with a ' '.
+It is necessary to specify the list of heuristics to use by specifying a '-h' flag and after that a list of heuristics should be given.
+The list elements should be separated with a ' '.
 The possible heuristics are:
 * bc - BadCharacter
 * gs - GoodSuffix
@@ -47,14 +48,14 @@ The possible heuristics are:
 * sh - SecondHeuristic aka Imporived-Boyer-Moore-Horesepool-Sunday
 
 It is possible to give a composite heuristic to use by using a '+' between heuristics.
-Ex: bc+gs+fh - this will produce a composite of BadCharacter, GoodSufix and FirstHeuristc to be used
+i.e.: bc+gs+fh - this will produce a composite of BadCharacter, GoodSufix and FirstHeuristc to be used
 
 It is necessary to specify a list of "file pattern" pairs to be used for the algorithm. This is done by giving a
 '-c' flag and a "file pattern" list that follows. The list elements should be separated with a ' '.
 
-Ex: ptyhom src/main.py -h fh+sh fh sh bc+gs -c C:\Canis_lupus_chr_1 ATGATG C:\Canis_lupus_chr_1 CTCTCTA C:\Canis_lupus_chr_1 TCACTACTCTCA C:\Phoenix_dactylifera_gen ATGATG
+i.e.: python src/main.py -h fh+sh fh sh bc+gs -c C:\Canis_lupus_chr_1 ATGATG C:\Canis_lupus_chr_1 CTCTCTA C:\Canis_lupus_chr_1 TCACTACTCTCA C:\Phoenix_dactylifera_gen ATGATG
 
-Note: Every given heuristic will be run against every given file.
+*Note*: Every given heuristic will be run against every given file-pattern combination.
 
 # Running Tests
 
