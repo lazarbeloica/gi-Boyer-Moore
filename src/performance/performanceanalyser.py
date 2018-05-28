@@ -7,10 +7,10 @@ from src.utils.linefeeder import LineFeeder
 def timer_decorator(f):
     def wrapper(*arg, **kwarg):
         start_time = time.time()
-        f(*arg, **kwarg)
+        print (len(f(*arg, **kwarg)))
         end_time = time.time()
 
-        return end_time - start_time
+        return round(end_time - start_time, 2) # 2 decimals
 
     return wrapper
 
@@ -18,7 +18,7 @@ def memory_decorator(f):
     def wrapper(execution_time):
         interval = int(execution_time/40) if int(execution_time/40) != 0 else 1
         mem_usage_list = memory_usage(f, interval=interval)
-        return statistics.mean(mem_usage_list)
+        return round(statistics.mean(mem_usage_list), 2) # 2 decimals
 
     return wrapper
 
